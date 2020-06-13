@@ -1,15 +1,19 @@
-import { Controller, Param, Get, Post, Body } from '@nestjs/common';
-import { CreateSiteDto } from './dto/create-site-dto';
+import { Controller, Param, Get, Query } from '@nestjs/common';
+import { SitesService } from './sites.service';
+import { Site } from './entity/site.entity';
+import { SearchSiteDto } from './dto/search-site.dto';
 
 @Controller('sites')
 export class SitesController {
+  constructor(private sitesService: SitesService) {}
+
   @Get(':id')
-  findOne(@Param('id') id: string): string {
-    return `site ${id}`;
+  findOne(@Param('id') id: string): Promise<Site> {
+    return this.sitesService.findById(id);
   }
 
-  @Post()
-  create(@Body() createSiteDto: CreateSiteDto): CreateSiteDto {
-    return 'created site';
+  @Get()
+  search(@Query() searchSiteDto: SearchSiteDto): Promise<Site> {
+    return this.sitesService.searchAndSave(searchSiteDto.address);
   }
 }

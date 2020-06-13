@@ -1,0 +1,9 @@
+{
+  "type": "mongodb",
+  "host": "localhost",
+  "port": "27017",
+  "database": "selfserve",
+  "synchronize": "true",
+  "useUnifiedTopology": true,
+  "entities": ["dist/**/*.entity{.ts,.js}"]
+}
