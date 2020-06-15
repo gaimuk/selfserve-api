@@ -1,4 +1,4 @@
-import { Module, ValidationPipe } from '@nestjs/common';
+import { Module, ValidationPipe, HttpModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { SitesController } from './sites/sites.controller';
 import { QuotesController } from './quotes/quotes.controller';
@@ -11,11 +11,13 @@ import { Quote } from './quotes/entity/quote.entity';
 import { APP_PIPE } from '@nestjs/core';
 import { OrdersService } from './orders/orders.service';
 import { Order } from './orders/entity/order.entity';
+import { HKGAddressLookupService } from './hkg-address-lookup/hkg-address-lookup.service';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(),
     TypeOrmModule.forFeature([Site, Quote, Order]),
+    HttpModule,
   ],
   controllers: [
     AppController,
@@ -31,6 +33,7 @@ import { Order } from './orders/entity/order.entity';
     SitesService,
     QuotesService,
     OrdersService,
+    HKGAddressLookupService,
   ],
 })
 export class AppModule {}
