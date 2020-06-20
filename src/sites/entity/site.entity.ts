@@ -6,7 +6,10 @@ export class Site {
   id?: ObjectID;
 
   @Column()
-  fullAddress: string;
+  streetNumber: string;
+
+  @Column()
+  streetName: string;
 
   @Column()
   city: string;

@@ -11,7 +11,7 @@ import { Quote } from './quotes/entity/quote.entity';
 import { APP_PIPE } from '@nestjs/core';
 import { OrdersService } from './orders/orders.service';
 import { Order } from './orders/entity/order.entity';
-import { HKGAddressLookupService } from './hkg-address-lookup/hkg-address-lookup.service';
+import { AddressSearchService } from './hkg-address-lookup/address-search.service';
 
 @Module({
   imports: [
@@ -33,7 +33,7 @@ import { HKGAddressLookupService } from './hkg-address-lookup/hkg-address-lookup
     SitesService,
     QuotesService,
     OrdersService,
-    HKGAddressLookupService,
+    AddressSearchService,
   ],
 })
 export class AppModule {}

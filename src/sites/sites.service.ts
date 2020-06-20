@@ -1,14 +1,15 @@
-import { Injectable, HttpService } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Site } from './entity/site.entity';
 import { Repository } from 'typeorm';
+import { AddressSearchService } from 'src/hkg-address-lookup/address-search.service';
 
 @Injectable()
 export class SitesService {
   constructor(
     @InjectRepository(Site)
     private sitesRepository: Repository<Site>,
-    private httpService: HttpService,
+    private addressSearchService: AddressSearchService,
   ) {}
 
   findById(id: string): Promise<Site> {
@@ -16,16 +17,17 @@ export class SitesService {
   }
 
   async searchAndSave(address: string): Promise<Site> {
-    await this.httpService
-      .get('https://www.als.ogcio.gov.hk/lookup', {
-        params: {
-          q: address,
-        },
-      })
-      .toPromise();
+    const addressSearchResponse = await this.addressSearchService.search(
+      address,
+    );
 
     const site: Site = {
-      fullAddress: address,
+      streetNumber:
+        addressSearchResponse.SuggestedAddress[0].Address.PremisesAddress
+          .EngPremisesAddress.EngStreet.BuildingNoFrom,
+      streetName:
+        addressSearchResponse.SuggestedAddress[0].Address.PremisesAddress
+          .EngPremisesAddress.EngStreet.StreetName,
       city: 'Hong Kong',
       country: 'HKG',
     };
